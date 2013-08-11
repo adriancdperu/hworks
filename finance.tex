@@ -1,0 +1,716 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsthm,amsmath,amsfonts,amsthm,amssymb}
+  \usepackage{amsmath}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Final Report}
+\newcommand{\hmwkDueDate}{August 15th, 2013}
+\newcommand{\hmwkClass}{Mathematical Finance}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassInstructor}{CSFI}
+\newcommand{\hmwkAuthorName}{Bekralas \& Campos}%- Bekralas%
+%\newcommand{\ww}{Mehdi Bekralas\footnote{Graduate School of Economics, Osaka University. E-mail: bekralas@gmail.com. Student code: 23CH806.}     -  Adrian Campos\footnote{Graduate School of Economics, Osaka University. E-mail: pge046cg@student.econ.osaka-u.ac.jp. Student code: 23A12046.}}
+\newcommand{\ww}{Adrian Campos\footnote{Graduate School of Economics, Osaka University. E-mail: adrian@investometrica.com. Student code: 23A12046}}
+\newtheorem{mydef}{Theorem}
+\newtheorem{mydef1}{Lemma}
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}  %
+                                                  %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+% This is used to trace down (pin point) problems
+% in latexing a document:
+%\tracingall
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak%
+                                    \nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak}%
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak%
+                                   \nobreak\extramarks{#1}{}\nobreak}%
+
+\newlength{\labelLength}
+\newcommand{\labelAnswer}[2]
+  {\settowidth{\labelLength}{#1}%
+   \addtolength{\labelLength}{0.25in}%
+   \changetext{}{-\labelLength}{}{}{}%
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#2\end{minipage}}%
+   \marginpar{\fbox{#1}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   \changetext{}{+\labelLength}{}{}{}}%
+
+\setcounter{secnumdepth}{0}
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\problemAnswer}[1]
+  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}}%
+
+\newcommand{\problemLAnswer}[1]
+  {\labelAnswer{\homeworkProblemName}{#1}}
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+   % Otherwise the changetext can do funny things to the other margin
+
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon (otherwise \sectionAnswer's can
+   % get ugly about their \marginpar placement.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\sectionAnswer}[1]
+  {% We put this space here to make sure we're disconnected from the previous
+   % passage
+
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}%
+   \enterProblemHeader{\homeworkProblemName}\exitProblemHeader{\homeworkProblemName}%
+   \marginpar{\fbox{\homeworkSectionName}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   }%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\vspace{2in}\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\vspace{3in}}
+\date{}
+\author{\textbf{\hmwkAuthorName}}
+\author{\textbf{\ww}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{spacing}{1.1}
+\maketitle
+\newpage
+% Uncomment the \tableofcontents and \newpage lines to get a Contents page
+% Uncomment the \setcounter line as well if you do NOT want subsections
+%       listed in Contents
+\setcounter{tocdepth}{1}
+%\tableofcontents
+%\newpage
+
+% When problems are long, it may be desirable to put a \newpage or a
+% \clearpage before each homeworkProblem environment
+
+\clearpage
+\begin{homeworkProblem}
+1) We know that for the expression to be a $\mathcal{F}_t$ martingale, the following must hold:
+\begin{equation}
+  \mathbb{E}_{S}[S_t]=\mathbb{E}_{S} [S_t \frac{S_t}{S_s}]
+\end{equation}
+\begin{equation}
+  \mathbb{E}_{S}[S_t]=S_s e^{(r-\sigma^2/2)(t-s)}\mathbb{E}_{s}[e^{\sigma (W_t -W_s)}]
+\end{equation}
+\begin{equation}
+ \mathbb{E}_{S}[S_t]=S_s e^{(r-\sigma^2/2)(t-s)} e^{\frac{\sigma^2}{2}(t-s)}
+\end{equation}
+\begin{equation}
+ \mathbb{E}_{S}[S_t]=S_s e^{r(t-s)}.
+\end{equation}
+Notice that $r \geq 0$. Thus, the verification that this is a $\mathcal{F}_t$
+martingale follows directly:
+\begin{equation}
+ \mathbb{E}_{S}[\tilde{S_t}]=\tilde{S_0} e^{-\frac{1}{2}\sigma^2 t +\sigma W_{s}^{\mathbb{P}}}
+e^{\frac{1}{2}\sigma^2 (t-s)} 
+\end{equation}
+\begin{equation}
+\mathbb{E}_{S}[\tilde{S_t}]=\tilde{S_0} e^{-\frac{1}{2}\sigma^2 s +\sigma W_{s}^{\mathbb{P}} }
+\end{equation}
+\begin{equation}
+\mathbb{E}_{S}[\tilde{S_t}]=\tilde{S_s}.
+\end{equation}
+
+(2) By direct computation:
+\begin{equation}
+\mathbb{E} [E^{\alpha}_t]=\mathbb{E} [S^{\alpha}_0 e^{\alpha [\sigma W_t + (r-\frac{\sigma^2}{2}t)]}]
+\end{equation}
+\begin{equation}
+\mathbb{E} [E^{\alpha}_t]=S^{\alpha}_{0}\mathbb{E} [S^{\alpha}_0 e^{\alpha [\sigma W_t + (r-\frac{\sigma^2}{2}t)]}]
+\end{equation}
+\begin{equation}
+\mathbb{E} [E^{\alpha}_t]=S^{\alpha}_{0} e^{\alpha (r-\frac{\sigma^2}{2})t +\alpha \sigma^2 /2}
+\end{equation}
+\begin{equation}
+\mathbb{E} [E^{\alpha}_t]=S^{\alpha}_{0} e^{\alpha t[r-\sigma^2 /2
++\alpha\sigma^2]}.
+\end{equation}
+
+3) By direct computation:
+\begin{equation}
+\mathbb{E} [e^{-rT}(S_T -K)^{+}]=e^{-rT} \int_{K}^{\infty} (S_T -K)dF(S_T)
+\end{equation}
+\begin{equation}
+\mathbb{E} [e^{-rT}(S_T -K)^{+}]=e^{-rT} \int_{K}^{\infty}S_T dF(S_T) -e^{-rT}K
+\int_{t_0}^{\infty} dF(S_T).
+\end{equation}
+We know the value of $\int_{K}^{\infty}S_T dF(S_T)$ and $\int_{t_0}^{\infty}
+dF(S_T)$, according to the class notes, as $S_0 \Phi (d_1)$ and $\Phi (d_2)$,
+are:
+\begin{equation}
+d_1 =\frac{1}{\sigma \sqrt{T}}[ln(\frac{S_0}{K})+(r_t \frac{\sigma^2}{2})T],
+\end{equation}
+\begin{equation}
+d_2 =d_1-\sigma \sqrt{T},
+\end{equation}
+\begin{equation}
+\Phi (y)=\frac{1}{\sigma \sqr{T}} \int_{-\infty}^{y}e^{-y T^t}dt.
+\end{equation}
+Therefore,
+\begin{equation}
+\mathbb{E} [e^{-rT}(S_T -K)^{+}=S_0 [d_1 -e^{-rT}K(d_2)].
+\end{equation}
+
+Now we insert the given values in the formula. For $K=90$, $d_1=0.87650255$,
+$d_2=0.6766$,$\mathbb{E} (d_1)=0.809$, $\mathbb{E} (d_2)=0.707$, $\mathbb{E}[.]=16.6320$.
+
+
+For $K=100$, $d_1=0.35$,
+$d_2=0.15$,$\mathbb{E} (d_1)=0.6368$, $\mathbb{E} (d_2)=0.55961$, $\mathbb{E}[.]=10.4492014$.
+
+
+For $K=110$, $d_1=0.12655$,
+$d_2=-0.32655$, $\mathbb{E} (d_1)=0.44966$, $\mathbb{E} (d_2)=0.372$, $\mathbb{E}[.]=6.04169$.
+\newpage
+4) The non-arbitrage price of a digital option is represented by the following
+expression:
+\begin{equation}
+V(t,x)=\mathbb{E}[e^{-r(T-t)}f(S_T)|S_t=x], 0\leq t \leq T.
+\end{equation}
+Which can be further reduced to:
+\begin{equation}
+V(t,x)=\mathbb{E}[e^{-r(T-t)} 1_{[K,\infty]}(S_T) |S_t=x]
+\end{equation}
+\begin{equation}
+V(t,x)=e^{-r(T-t)}  \mathbb{E}[1_{S_T -K} |S_t=x]
+\end{equation}
+\begin{equation}
+V(t,x)=e^{-r(T-t)}  \mathbb{P}[S_T >K]
+\end{equation}
+\begin{equation}
+V(t,x)=e^{-r(T-t)}  \int_{K}^{\infty} dF(S_T).
+\end{equation}
+Let us work with (19): $V(t,x)= e^{-r(T-t)}  \int_{K}^{\infty}
+1_{[K,\infty]}dF(S_T)$. Here, we know that $\int_{K}^{\infty}
+1_{[K,\infty]}dF(S_T)=\mathbb{E}[S_T |S_T]=L_{S_T}(K)$, where $L_{S_T}(K) \sim
+N((ln(S_T)(T-t)),\sigma^2(T-t))$. We can further develop this latter expression
+into:
+\begin{equation}
+L_{S_T}(K)= exp(ln1+(r-\frac{\sigma^2}{2})(T-t)+\frac{\sigma^2(T-t)}{2}) \times   
+\Phi(\frac{-lnK+ln|+ (r-\sigma^2/2)(T-t)}{\sigma \sqrt{T-t}})=1 \times e^{rt}
+\Phi (x).
+\end{equation}
+Therefore:
+\begin{equation}
+V(t,x)=e^{-r(T-t)} e^{rt} \Phi (x)
+\end{equation}
+\begin{equation}
+V(t,x)=e^{-rT}\Phi (x).
+\end{equation}
+
+5) We start by aknowledging that a BS-Call Option price formula$C_{BS}(t,T,S_t,K,r,\sigma)$ is represented
+by:
+\begin{equation}
+\mathbb{E} [e^{-r(T-t)}(S_T -K)^{+}|\mathcal{F_t}]:=S_T \Phi (d_1
+(T-t,S_T,K,r,\sigma))-e^{^r(T-t)}K\Phi (d2(T-t,S_t,K,r,\sigma)).
+\end{equation}
+Let $\tau = T-t$. Given that, 
+\begin{equation}
+\Gamma=\frac{\partial^2 C_{BS}}{\partial S_t^2}=\frac{\partial(\partial C /\partialS)}{\partial
+S}=\frac{\partial \Phi(d_1)}{\partial d_1} \times \frac{\partial d_1}{\partial
+S}.
+\end{equation}
+\begin{equation}
+\Gamma=\Phi'(d_1)\times \frac{S_t}{\sigma \sqrt{C}}
+\end{equation}
+\begin{equation}
+\Gamma=\frac{1}{S_t \sigma \sqrt{C}}\Phi'(d_1).
+\end{equation}
+Now,
+\begin{equation}
+\mathcal{V_t}=\frac{\partial C}{\partial \sigma}=S_t \frac{\partial \Phi(d_1)}{\partial
+\sigma_{t}}-Ke^{-r \tau}\frac{\partial \Phi(d_2)}{\partial \sigma_t}.
+\end{equation}
+\begin{equation}
+\mathcal{V_t}=S_t \frac{\partial \Phi(d_1)}{\partial
+d_1}\times \frac{\partial d_1}{\partial \sigma_t}-Ke^{-r \tau}\frac{\partial \Phi(d_2)}{\partial d_2}\times
+\frac{\partial d_2}{\partial \sigma_t}.
+\end{equation}
+\begin{equation}
+\mathcal{V_t}=S_t \frac{1}{\sqrt{2\pi}}e^{\frac{-d_1^2}{2}}[\frac{\sigma^2 \tau^{3/2}-[ln(S_T/K)+(r_t+\sigma^2_t/2)\tau]\tau^{1/2}}{\sigma^2_t \tau}]
+-Ke^{rT}(\frac{1}{\sqrt{2\pi}}e-\d_2^2 /2 (\St/K)e^{rT}).
+\end{equation}
+\begin{equation}
+\mathcal{V_t}=S_t \frac{1}{\sqrt{2\pi}}e^{\frac{-d_1^2}{2}}[\frac{\sigma^2 \tau^{3/2}-[ln(S_T/K)+(r_t+\sigma^2_t/2)\tau]\tau^{1/2}}{\sigma^2_t \tau}]
+-S_t \frac{1}{\sqrt{2\pi}}e^{-d_1^2 /2}\frac{-(ln(S/K)+(r_t+\sigma^2_t /2)\tau)\tau^{1/2}}{\sigma^2_t \tau}
+\end{equation}
+\begin{equation}
+\mathcal{V_t}=S_t e^{\frac{-d^2_2}{2}}[\frac{\sigma^2_t \tau^{3/2}}{\sigma^2_t \tau}]
+\end{equation}
+\begin{equation}
+\mathcal{V_t}=S_t \sqrt{tau} \Phi'(d_1).
+\end{equation}
+Therefore:
+\begin{equation}
+\mathcal{V_t}=S_t \sqrt{tau} \Phi'(d_1).
+\end{equation}
+\begin{equation}
+\Gamma=\frac{1}{S_t \sigma \sqrt{C}}\Phi'(d_1).
+\end{equation}
+And:
+\begin{equation}
+\Gamma(S_t \sigma \sqrt{\tau})=\Phi(d_1)
+\end{equation}
+\begin{equation}
+\mathcal{V_t}=S_t \sqrt{\tau}[\Gamma(S_t \sigma \sqrt{\tau})]
+\end{equation}
+\begin{equation}
+\mathcal{V_t}=S_t^2 \sigma \tau \Gamma.
+\end{equation}
+
+6) Gamma $\Gamma$ is the second derivative of the value function with respect to
+the underlying price. 
+\begin{equation}
+\Gamma =\frac{\partial \Delta}{\partial S}={\partial^2 \mathcal{V}}{\partial
+S^2}.
+\end{equation}
+It therefore measures the rate of change in the delta with respect to changes in
+the price of the underlying asset. 
+In this sense, for example the gamma of an asset with no probability function,
+like cash, is $\mathcal{V}=exp(-r(T-t))=\frac{\partial \Delta}{\partial S}=\frac{\partial}{\partial
+S}0=0$, as there is no variation. The same can be stated about the gamma of an
+underlying asset. Therefore, both cash and underlying assets have no variation
+in Gamma since it is intrinsically zero. We call these cases trivial. Now, let
+us move to the more interesting cases of the Gamma of derivatives, for example
+an European call: 
+\begin{equation}
+\Gamma =\frac{\partial \Delta}{\partial S}=\frac{\partial}{\partial
+S}\Phi(d_1)=\frac{exp(-d_1^2/2)}{\sigma S \sqrt{2 \pi (T-t)}}.
+\end{equation}
+Therefore, either a variation in $\partial \Phi(d_1)$ or a variation in
+$\partial S$ can cause a variation in Gamma, as it does not have a discrete
+value for the case of a European call, and more generally speaking, a
+derivative. 
+
+In layman's term, changes in $\partial \Phi(d_1)$ and $\partial S$ basically are
+associated with how much at-the money a given derivative is. As the derivative
+approximates the at-the-money level, gamma will obviously be greater in value.
+As it goes in-the-money or out-of-the-money the value of Gamma will decrease. A
+positive $\partial \Phi(d_1)$ associated with a positive $\partial S$ change can
+only be associated with long positions, whereas a negative $\partial \Phi(d_1)$
+associated with a change in $\partial S$ can only correspond to a short
+position.
+
+On the other hand, vega is not a second-order measure, but a first-order
+straight-forward computed greek defined as:
+\begin{equation}
+\nu = \frac{\partial V}{\partial \sigma}.
+\end{equation}
+It follows directly from the formula that vega measures sensitivity to
+volatility. Thus, non-volatile assets like cash will have a vega value of 0. In
+layman's words, vega is the amount of money per underlying share that an option
+value will gain or lose (in case vega is negative) as volatility rises or falls
+by 1 percent. Any change in volatility sensitivity will therefore affect vega
+value. it is expected that extremely volatility-dependent options, like
+straddles, will be amongst those options with the highest vegas in the market.
+
+7) The notion of arbitrage is crucial in the modern theory of Finance. It is the cornerstone of the option pricing theory due to F. Black, M. Scholes and R. Merton (published in 1973, Nobel prize in Economics 1997).
+Consider the trading of dollar versus euro which takes place simultaneously at two exchanges, say in New York and Paris. 
+Assume for simplicity that in New York the dollar-euro rate is $1:1$. Then it is quite obvious that in Paris the exchange
+rate (at the same moment of time) also is $1:1$. Let us have a closer look why this is indeed the case. Suppose to the contrary that you can buy in Paris a dollar for $0.999$.
+Then, indeed, the so-called “arbitrageurs” would quickly act to buy dollar in Paris and simultaneously sell the same amount of dollar in New York, keeping the margin
+ in their (or their bank’s) pocket. Note that there is no normalizing factor in front of the exchanged amount and the arbitrageur would try to do this on as
+ large a scale as possible.
+It is rather obvious that in the above described situation the market can- not be in equilibrium. A moment’s reflection reveals that the market forces triggered by the 
+arbitrageurs acting according to the above scheme will make the dollar rise in Paris and fall in New York. The arbitrage possibility will only disappear when the two 
+prices become equal. Of course “equality” here is to be understood as an approximate identity where — even for arbitrageurs with very low (proportional) 
+transaction costs — the above scheme is not profitable any more.
+This brings us to a first — still informal and intuitive — definition of arbitrage: an arbitrage opportunity is the possibility to make a profit in a financial market 
+without risk and without net investment of capital. The principle of no arbitrage states that a mathematical model of a financial market should not allow for 
+arbitrage possibilities.
+\end{homeworkProblem}
+\newpage
+\begin{homeworkProblem}
+10) Heston Model: A type of stochastic volatility model developed by associate finance professor Steven Heston in 1993 for analyzing bond and currency options. 
+The Heston model is a closed-form solution for pricing options that seeks to overcome the shortcomings in the Black-Scholes option pricing model related to 
+return skewness and strike-price bias. The parameters in the equations represent
+the rate of return of the asset, the long variance or long run average price
+variance, the rate of reversion to long variance, and the volatility of the
+volatility (which determines the variance). The conditions written in the
+problem are known as Feller conditions, which can be modified to produce
+extensions.
+
+11) First, acknowledge that:
+\begin{equation}
+\frac{dS_t}{S_t}=\sqrt{Y_t}(\rho dw^1_t +\sqrt{1-\rho^2}dw^2_t)+rdt.
+\end{equation}
+Put:
+\begin{equation}
+(\rho dw^1_t +\sqrt{1-\rho^2}dw^2_t) = dW^{+}_3
+\end{equation}
+\begin{equation}
+\sqrt{y_t}=\sigma_t.
+\end{equation}
+We solve the Stochastic Differential Equation (Geometric Brownian Motion),
+obtaining:
+\begin{equation}
+s_t=s_0 exp[r_t -\frac{1}{2}\int^{t}_0 y_u du +\int_0^{t}\sqrt{y_u}dW_3^{+} ].
+\end{equation}
+\begin{equation}
+s_t=s_0 exp[r_t -\frac{1}{2}\int^{t}_0 y_u du +\int_0^{t}\sqrt{y_u} (\rho dw^1_t +\sqrt{1-\rho^2}dw^2_t) ].
+\end{equation}
+Then:
+\begin{equation}
+\mathbb{E} [M_t (\theta, S_0, Y_0)]= s_0 e^{rt} \mathbb{E} [exp[\theta \int_0^t y_u (\rho dw_1^t +\sqrt{1-\rho}dw_2^t)-1/2\int_0^t y_u
+du]].
+\end{equation}
+\begin{equation}
+M_t (\theta, S_0, Y_0)= [s_0 e^{rt}]^{\sigma}\mathbb{E} [\theta \int_0^t y_u (\rho dw_1^t + \sqrt{1-\rho^2}dW^2_t -\frac{\theta}{2}\int_0^t y_u
+du)].
+\end{equation}
+We know that:
+\begin{equation}
+\frac{\theta}{2}\int^{t}_0 y_u du=(\theta^2/2 +\theta(\theta -1)/2)\int_0^t y_u
+du.
+\end{equation}
+By substitution the above expression and after algebraic arrangements we obtain:
+\begin{equation}
+M_t=(S_0 e^{rt})^{\theta} \mathbb{E} [z_t exp[z_t exp(\theta (\theta -1)\frac{1}{2}\int_0^t y_u
+du)]].
+\end{equation}
+\begin{equation}
+z_t= exp[\theta \int_0^t \sqrt{y_u}\rho dw_1^t + \theta \int_0^t \sqrt{y_u} \sqrt{1-\rho^2}dW_2^t -1/2 \int_0^t (\theta \sqrt{y}\rho)^2]
+-\frac{1}{2}\int^t_0 (\theta \sqrt{y}\sqrt{1-\rho^2})^2du].
+\end{equation}
+The above expression is a martingale. Our expectation is a measure change (forward
+measure). Thus, this is a martingale under a new measure $\tilde{\mathbb{Q}}$.
+We obtain:
+\begin{equation}
+M_t(\theta)=(S_0 e^{rt})^{\theta}\tilde{\mathbb{E}}[exp[\theta (\theta -1)/2 \int^t_0 y_u
+du]].
+\end{equation}
+We suppose that the solution of $\tilde{\mathbb{E}}[exp[\theta (\theta -1)/2 \int^t_0 y_u
+du]]$ is affine of the form $exp[A(t,\theta)y_0 +B(t, \theta)]$. Notice that by
+Girsanov Theorem we have our new Brownian motion:
+\begin{equation}
+\tilde{W_1}(t)=W_1^{\mathbb{Q}}(t)-\theta \rho \int_0^t \sqrt{y_u}du \rightarrow
+\tilde{W_1}^{\mathbb{Q}}(t)=\tilde{W_1}(t) +\theta \int_0^t \sqrt{y_u}d_u.
+\end{equation}
+\begin{equation}
+\tilde{W_2}(t)=W^{\mathbb{Q}}_2(t)-\theta \sqrt{1-\rho^2} \int_0^t \sqrt{y_u}du \rightarrow
+\tilde{W_2}^{\mathbb{Q}}(t)=\tilde{W_2}(t) +\theta \sqrt{1-\rho^2} \int_0^t \sqrt{y_u}d_u.
+\end{equation}
+Therefore $Y_t$ has the following stochastic differential equation in the
+$\tilde{\mathbb{Q}}$ measure:
+\begin{equation}
+dY_t=\alpha \sqrt{Y_t} dW_t (t)- \tilde{\beta}(y-\gamma)dt,
+\end{equation}
+where we plugged $\tilde{W_t^1}$ and $\tilde{W_t^2}$ by their respective values
+and replaced $(\betha-\alpha \theta \rho)$ by $\tilde{beta}$ and $\gamma$ by
+$\frac{\tilde{\beta}\tilde{\gamma}}{\beta}$. Now:
+\begin{equation}
+\tilde{\mathbb{E}}[exp [\frac{\theta (\theta -1)}{2}\int^t_0 y_u
+du]|y_0=y]:=V(t,y).
+\end{equation}
+Using Fayman Kac Lemma we obtain:
+\begin{equation}
+\frac{\partial_T V}{V}=1/2 \alpha^2 y\partial_{yy} V
+/V-\tilde{\beta}(\tilde{y}-\tilde{\gamma})\frac{\partial_y V}{\partial V}+\frac{\theta
+(\theta-1)}{2}yV/V,
+\end{equation}
+\begin{equation}
+V(0,y)=1.
+\end{equation}
+Put
+\begin{equation}
+e^u=V \rightarrow u=logV
+\end{equation}
+by simple derivation we obtain:
+\begin{equation}
+\partial_t U=\partial_t V / \partial V
+\end{equation}
+\begin{equation}
+\partial_y U=\partial_y V / \partial V
+\end{equation}
+\begin{equation}
+\partial_{yy} U=\frac{\partial_{yy}V+V-(\partial y V)^{+}}{V^2}=\partial_{yy}u +[\frac{\partial_y
+v}{v}]^2=\partial_{yy}u.
+\end{equation}
+Replace these equations in the Faymann Kac expression, we obtain:
+\begin{equation}
+\partial_{t}u=1/2 \alpha^2 y(\partial_{yy}u+(\partial_y u)^2-\tilde{\beta}(y-\tilde{\gamma})\partial_y u +\frac{\theta(\theta-1)}{2}y)
+\end{equation}
+\begin{equation}
+U(0,y)=0.
+\end{equation}
+So this system of equations is supposed to have an affine solution of the form 
+\begin{equation}
+U(t,y)=A(t,)y +B(t),
+\end{equation}
+as we assumed. Therefore:
+\begin{equation}
+\partial_{y}U(t,y)=A(t)
+\end{equation}
+\begin{equation}
+\partial_{yy}U(t,y)=0
+\end{equation}
+We substitute these values in the system of equations. This gives:
+\begin{equation}
+\dot{A}(t)_y+\dot{B}(t)=\frac{1}{2}\alpha^2 y
+(A(t))^2-\tilde{\beta}(y-\gamma)A(t)+\frac{\theta (\theta-1)}{2}y
+\end{equation}
+\begin{equation}
+U(0,y)=0\rightarrow A(0)=0, B(0)=0.
+\end{equation}
+The first equation implies that the factor of $y$ in the right hand should be
+equal to the ``y" factor in the left hand and the rest of the two sides (whitout y)
+should be of course equal:
+\begin{equation}
+\dot{A}(t)=\alpha^2 /2 A(t)^2 -\beta A(t)+\theta (\theta-1)/2
+\end{equation}
+\begin{equation}
+A(0)=0
+\end{equation}
+\begin{equation}
+\dot{B}(t)=-\tilde{\beta}\tilde{\gamma}
+\end{equation}
+\begin{equation}
+B(0)=0
+\end{equation}
+We need to solve this system by parts. The first equations can be solved as if
+they do not imply $B(t)$ and then plug $A(t)$ solution. There is also a Ricatti
+ODE.  Recall that this equation has the shape of:
+\begin{equation}
+A'(t)=a-bA(t)+cA^2(t)
+\end{equation}
+\begin{equation}
+A(0)=0
+\end{equation}
+and has the solution of:
+\begin{equation}
+A(t)=\frac{2a(e^{vt}-1)}{(v+b)(e^{ut}-1)+2\sqrt{b^2-4ac}}.
+\end{equation}
+In our case $a=\theta (\theta-1)/2$, $\beta=\tilde{\beta}$, $c=\alpha^2/2$,
+$\theta=\sqrt{\tilde{\beta}^2-4\theta(\theta-1)/2 \alpha^2/2}$. Remember also
+that $\tilde{\beta}=\beta-\alpha \theta \rho$. Since $\theta(\theta-1)/2\neq 0$
+then:
+\begin{equation}
+\int_0^t A(u)du=1[1/2(\theta+\beta)+m\frac{2\theta}{(\sigma+b)(e^{\sigma}-1)+2\sigma }
+\end{equation}
+Replace it in $\beta(t)=\tilde{\beta}\tilde{\gamma}int_0^tA(t) and we obtain our
+solution.
+
+
+\end{homeworkProblem}
+\newpage
+\begin{homeworkProblem}
+12) The CAPM Model (We know this model is the simplest model in Finance but we still like to present it just for the pleasure of it, we enjoy its simplicity): There are $(j=1, ..., J)$ assets. Let
+$\widetilde{r}_M$ denote the return of the market portfolio. The
+return of asset $j$, $\widetilde{r}_j$, is determined by
+$\widetilde{r}_j=\beta_j\widetilde{r}_M+\widetilde{\epsilon}_j$. Let $E[\widetilde{\epsilon}_j]=0$
+hold for any $j$, and $Cov[\widetilde{e}_j,\widetilde{e}_i]=0$ hold for any $j \neq
+i$. Finally, let $Var(\widetilde{\epsilon}_j)=\sigma^2_{\epsilon}$ and let all
+assets face the same non-market risk.
+
+(1)  Beta portfolio: To calculate the overall beta of a portfolio, first we make use of the
+following theorem:
+
+\begin{mydef}
+If the market portfolio $M$ is efficient, the expected return $\widetilde{r}_j$
+of any asset $j$ satisfies:
+\begin{equation}
+\widetilde{r}_j-r_f= \beta_j(\widetilde{r}_M-r_f)
+\end{equation}
+, where $r_f$ is the intercept of the capital market line (see Figure 1) and
+$\beta_j=\frac{\sigma_{j,M}}{\sigma_M^2}$.
+\end{mydef}
+\begin{proof}
+For any $\alpha$ consider the portfolio consisting of a portion $\alpha$
+invested in asset j and a portion $1-\alpha$ invested in the market portfolio
+$M$. The expected rate of return of this portfolio is:
+\begin{equation}
+\widetilde{r}_{\alpha}=\alpha\widetilde{r}_j + (1-\alpha)\widetilde{r}_M.  
+\end{equation}
+The standard deviation of the rate of this return is:
+\begin{equation}
+\sigma_{\alpha}=[\alpha^2
+\sigma_j^2+2\alpha(1-\alpha)\sigma_{j,M}+(1-\alpha)^2\sigma_M^2]^{1/2}
+\end{equation}
+\begin{figure}[e]
+\centering
+\includegraphics[width=0.6\textwidth]{pic1.pdf}
+\caption{Capital market line:
+$\widetilde{r_j}=r_f+\frac{\widetilde{r}_M-r_f}{\sigma_M}\sigma_j$, where $\widetilde{r}_M$ and $\sigma_M$ are the expected value and the
+standard deviation of the market rate of return and $\widetilde{r_j}$, $\sigma_j$ are the expected value and standard deviation of asset $j$}
+\label{fig:awesome_image}
+\end{figure}
+\begin{figure}[e]
+\centering
+\includegraphics[width=0.6\textwidth]{pic2.pdf}
+\caption{Portfolio curve: the family of portfolios traces out a curve similar to the one shown above. The capital market line is a tangent.}
+\label{fig:awesome_image}
+\end{figure}
+
+As $\alpha$ changes, the values will draw a curve in the $\widetilde{r}-\sigma$
+diagram as it can be seen in Figure 2. $\alpha=0$ gives us the market portfolio
+$M$. The equation of the curve indicates that it cannot cross the capital market
+line (see Figure 2), because if it did, the capital market line would not be the
+efficient boundary of the feasible set anymore. Thus, the capital market line
+acts as a tangent to the portfolio curve. Mathematically,
+\begin{equation}
+\frac{\partial\widetilde{r}_{\alpha}}{\partial \alpha}=\widetilde{r}_j - \widetilde{r}_M
+\end{equation}
+\begin{equation}
+\frac{\partial\sigma_{\alpha}}{\partial \alpha}=\frac{\alpha\sigma_j^2+(1-2\alpha)\sigma_{j,M}+(\alpha-1)\sigma^2_M}{\sigma_{\alpha}}
+\end{equation}
+Evaluating at $\alpha=0$:
+\begin{equation}
+   \frac{\partial\sigma_{\alpha}}{\partial
+   \alpha}\bigg|_{\alpha=0}=\frac{\sigma_{j,M}-\sigma^2_{M}}{\sigma_M}.
+\end{equation}
+Since
+\begin{equation}
+\frac{\partial\widetilde{r}_{\alpha}}{\partial\sigma_{\alpha}}=\frac{\partial\widetilde{r}_{\alpha}/\partial\alpha}{\partial\sigma_{\alpha}/\partial\alpha},
+\end{equation}
+we can obtain
+\begin{equation}
+\frac{\partial\widetilde{r}_{\alpha}}{\partial\sigma_{\alpha}}\bigg|_{\alpha=0}=\frac{(\widetilde{r}_j-\widetilde{r}_M)\sigma_M}{\sigma_{j,M}-\sigma^2_M}.
+\end{equation}
+The slope above equals the capital market line slope. Therefore:
+\begin{equation}
+\frac{(\widetilde{r}_j-\widetilde{r}_M)\sigma_M}{\sigma_{j,M}-\sigma^2_M}=\frac{\widetilde{r}_M-r_f}{\sigma_M}.
+\end{equation}
+Finally, we solve for $\widetilde{r}_j$:
+\begin{equation}
+\widetilde{r}_j=r_f+(\frac{\widetilde{r}_M-r_f}{\sigma^2_M})\sigma_{j,M}=r_f+\beta_j(\widetilde{r}_M-r_f).
+\end{equation}
+\end{proof}
+It is relatively easy now to calculate the overall beta of a portfolio in terms
+of the betas of the individual assets in the portfolio.
+
+Let the weights of each asset be $w_1, w_2, w_3,..., w_J$. The rate of return of
+the portfolio is $\sum_{j=1}^{J} w_j \widetilde{r}_j$.Thus $Cov(r,\widetilde{r}_M)=\sum_{j=1}^{J} w_j
+Cov(\widetilde{r}_j,r_M)$. It follows that:
+\begin{equation}
+\beta_{portfolio}=\sum_{j=1}^{J} w_j \beta_j.
+\end{equation}
+Since we know from Theorem 1 that
+$\beta_j=\frac{\widetilde{r}_j-r_f}{(\widetilde{r}_M-r_f)}$, we can re-express
+(22) as:
+\begin{equation}
+\beta_{portfolio}=\sum_{j=1}^{J} w_j \frac{\widetilde{r}_j-r_f}{(\widetilde{r}_M-r_f)}.
+\end{equation}
+
+
+(2) The Market Risk and Non-Market Risk: Recall that, for two random variables $X$ and $Y$, the variance of its linear combination is given by 
+$Var(aX+bY)=a^2Var(X)+b^2Var(Y)+2abCov(X,Y)$. Now, from the problem's
+assumptions we know that $Cov(e_i,e_j)=0$.
+
+Therefore, the portfolio's non market risk is expressed as:
+\begin{equation}
+Var(e_{portfolio})=w^2_1 Var(e_1)}+w^2_2 Var(e_2)+...+w^2_J Var(e_J)}
+\end{equation}
+
+Rewriting:
+\begin{equation}
+Var(e_{portfolio})=w^2_1 \sigma^2_{e,1}+w^2_2 \sigma^2_{e,2}+...+w^2_J \sigma^2_{e,J}
+\end{equation}
+
+\begin{equation}
+Var(e_{portfolio})=\sum_{j=1}^{J} w_j^2   \sigma^2_{e,j}
+\end{equation}
+
+The market risk is given by the following equation:
+\begin{equation}
+Var(\widetilde{r}_{portfolio})\simeq \beta_{portfolio}^2 Var(\widetilde{r}_m)\footnote{This follows directly from the definition of market risk.}.
+\end{equation}
+
+(3) Asympotic Behavior of Risk: For $J \rightarrow \infty$, the non-market risk will converge to zero. If
+the non-market risk is almost zero, the total risk will be determined only by
+the market risk.
+
+To confirm this, allow for the weights to be $w_i=1/J$. Then, equation 25
+becomes:
+\begin{equation}
+Var(e_{portfolio})=\frac{1}{J}\Big(
+\frac{\sigma^2_{e,1}+\sigma^2_{e,2}+...+\sigma^2_{e,J}}{J}\Big).
+\end{equation} 
+
+Taking the limit:
+\begin{equation}
+\textstyle \lim_{J\to\infty}\frac{1}{J}\Big(
+\frac{\sigma^2_{e,1}+\sigma^2_{e,2}+...+\sigma^2_{e,J}}{J}\Big)=0.
+\end{equation} 
+
+\end{homeworkProblem}
+\end{spacing}
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------%
+% The following is copyright and licensing information for
+% redistribution of this LaTeX source code; it also includes a liability
+% statement. If this source code is not being redistributed to others,
+% it may be omitted. It has no effect on the function of the above code.
+%----------------------------------------------------------------------%
+% Copyright (c) 2007, 2008, 2009, 2010, 2011 by Theodore P. Pavlic
+%
+% Unless otherwise expressly stated, this work is licensed under the
+% Creative Commons Attribution-Noncommercial 3.0 United States License. To
+% view a copy of this license, visit
+% http://creativecommons.org/licenses/by-nc/3.0/us/ or send a letter to
+% Creative Commons, 171 Second Street, Suite 300, San Francisco,
+% California, 94105, USA.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+% OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+%----------------------------------------------------------------------%
